@@ -61,22 +61,15 @@ def home():
 			flash("Please upload a zip file", 'info')
 			return redirect(url_for('home'))
 
-		# try:
 		if file:
 			if allowed_file(file.filename):
 				folder_name = file.filename.rsplit('.', 1)[0]		# name of the folder that will be created after extracting files from zip
 				zip_fn = save_file(file)							# name of zip file along with .zip and passed through secure_filename() function
-				try:
-					extract_files(zip_fn)
-				
-					return redirect(url_for('static', filename = 'ZipFiles/' + folder_name + '/index.html'))
-				except: 
-					e = sys.exc_info()[0]
-					flash(str(e), 'info')
-					return redirect(url_for('home'))
+				extract_files(zip_fn)
+				return redirect(url_for('static', filename = 'ZipFiles/' + folder_name + '/index.html'))
+					
 			else:	
 				flash("Make sure the extension of uploaded file is .zip", 'danger')		# if file extension wasn't zip
 				return redirect(url_for('home'))
-		
 			
 	return render_template("home.html")
