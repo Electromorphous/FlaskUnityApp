@@ -6,6 +6,7 @@ import os
 import secrets
 import zipfile
 from werkzeug.utils import secure_filename
+import sys
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'b49a2921e19d1ceda4ea97c54ccb51a2'		# this protects the information entered in the forms from modifying cookies, cross-site request forgery attacks, etc.
@@ -65,9 +66,12 @@ def home():
 				folder_name = file.filename.rsplit('.', 1)[0]		# name of the folder that will be created after extracting files from zip
 				zip_fn = save_file(file)							# name of zip file along with .zip and passed through secure_filename() function
 				extract_files(zip_fn)
-				
-				return redirect(url_for('static', filename = 'ZipFiles/' + folder_name + '/index.html'))
-
+				try:
+					return redirect(url_for('static', filename = 'ZipFiles/' + folder_name + '/index.html'))
+				except: # catch *all* exceptions
+					e = sys.exc_info()[0]
+					# write_to_page( "<p>Error: %s</p>" % e )
+					flash(str(e), 'info')
 			else:	
 				flash("Make sure the extension of uploaded file is .zip", 'danger')		# if file extension wasn't zip
 				return redirect(url_for('home'))
