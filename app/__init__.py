@@ -20,7 +20,7 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in set(['zip'])
 
 
-basepath = os.path.join(app.root_path, 'static\\ZipFiles')		# app.root_path gives the root path of application all the way up the package directory
+basepath = os.path.join(app.root_path, 'static/ZipFiles')		# app.root_path gives the root path of application all the way up the package directory
 
 def save_file(uploaded_file):
 	for entry in os.listdir(basepath):							# deleting all the previously saved files from this folder
