@@ -72,6 +72,7 @@ def home():
 					e = sys.exc_info()[0]
 					# write_to_page( "<p>Error: %s</p>" % e )
 					flash(str(e), 'info')
+					return redirect(url_for('home'))
 			else:	
 				flash("Make sure the extension of uploaded file is .zip", 'danger')		# if file extension wasn't zip
 				return redirect(url_for('home'))
